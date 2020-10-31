@@ -19,6 +19,7 @@ hangman_state = 0
 
 #Color codes
 white = (255,255,255)
+black = (0,0,0)
 
 #Basic game loop
 FPS = 60
@@ -26,7 +27,6 @@ clock = pygame.time.Clock()
 run = True
 
 while run:
-
     clock.tick(FPS)
     win.fill(white)
     win.blit(images[hangman_state], (150, 100))
@@ -39,6 +39,4 @@ while run:
         if event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
             print(pos)
-
-
 pygame.quit()           
