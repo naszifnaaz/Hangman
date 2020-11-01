@@ -1,6 +1,7 @@
 #Hangman game made using Python and pygame
 import pygame
 import math
+import random
 
 #Setting up display
 pygame.init()
@@ -74,7 +75,15 @@ print(images)
 
 #Game variables
 hangman_state = 0
-word = 'DEVELOPER'
+
+#Random words
+words = []
+with open("wordfile.txt", "r") as f:
+    for line in f:
+        words.extend(line.split())
+temp = random.choice(words)
+word = temp.upper()
+print(word)
 guessed = []
 
 #Colors
