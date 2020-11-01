@@ -26,6 +26,10 @@ for i in range(26):
 def draw():
     win.fill(WHITE)
 
+    #draw title
+    text = TITLE_FONT.render("HANGMAN",1,BLACK)
+    win.blit(text, (width/2 - text.get_width() / 2, 20))
+
     #draw word
     display_word = ""
     for letter in word:
@@ -86,7 +90,6 @@ run = True
 
 while run:
     clock.tick(FPS)
-    draw()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -105,7 +108,7 @@ while run:
                         #Changing hangman state
                         if char not in word:
                             hangman_state += 1
-
+    draw()
     #Checking for Win / Loss   
     won = True     
     for letter in word:
