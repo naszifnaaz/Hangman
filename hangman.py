@@ -11,7 +11,7 @@ pygame.display.set_caption(("Hangman"))
 #Button variables
 radius = 20
 gap = 15
-letters = []    #triplet with x,y co ordinates and letter ascii value
+letters = []    #quadruplet with x,y co ordinates, letter ascii value and boolean variable
 startx = round((width - (radius * 2 + gap) * 13) / 2)
 starty = 400
 A =65
@@ -19,7 +19,7 @@ A =65
 for i in range(26):
     x = startx + gap * 2 + ((radius * 2 + gap) * (i % 13))
     y = starty + ((i // 13) * (gap + radius * 2))
-    letters.append([x, y, chr(A + i)])
+    letters.append([x, y, chr(A + i), True])
 
 
 #Draw function
@@ -28,10 +28,11 @@ def draw():
 
     #draw buttons
     for letter in letters:
-        x, y, char = letter
-        pygame.draw.circle(win, BLACK, (x,y), radius, 3)
-        text = LETTER_FONT.render(char,1,BLACK)
-        win.blit(text, (x - text.get_width() / 2, y - text.get_height() / 2))
+        x, y, char, visible = letter
+        if visible:
+            pygame.draw.circle(win, BLACK, (x,y), radius, 3)
+            text = LETTER_FONT.render(char,1,BLACK)
+            win.blit(text, (x - text.get_width() / 2, y - text.get_height() / 2))
 
     win.blit(images[hangman_state], (150, 100))
     pygame.display.update()
@@ -71,11 +72,12 @@ while run:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             for letter in letters:
-                x, y, char = letter
+                x, y, char, visible = letter
                 #Adding collision detection
-                dis = math.sqrt((x - mouse_x) ** 2 + (y - mouse_y) ** 2)
-                if dis < radius:
-                    print(char)
+                if visible:
+                    dis = math.sqrt((x - mouse_x) ** 2 + (y - mouse_y) ** 2)
+                    if dis < radius:
+                        letter[3] = False
             
 
 pygame.quit()           
