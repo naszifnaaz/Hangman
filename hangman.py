@@ -47,11 +47,19 @@ def draw():
     win.blit(images[hangman_state], (150, 100))
     pygame.display.update()
 
+#Win/Loss
+def display_message(message):
+    pygame.time.delay(1000)
+    win.fill(WHITE)
+    text = WORD_FONT.render(message,1,RED)
+    win.blit(text,(width / 2 - text.get_width() /2, height / 2 - text.get_height() / 2))
+    pygame.display.update()
+    pygame.time.delay(3000)
 
 #Fonts
 LETTER_FONT = pygame.font.SysFont('comicsans',40)
 WORD_FONT = pygame.font.SysFont('comicsans',60)
-
+TITLE_FONT = pygame.font.SysFont('comicsans',70)
 
 #Loading assets
 images = []
@@ -61,13 +69,15 @@ for i in range(7):
 print(images)
 
 #Game variables
-hangman_state = 6
+hangman_state = 0
 word = 'DEVELOPER'
 guessed = []
 
 #Colors
 WHITE = (255,255,255)
 BLACK = (0,0,0)
+GREEN = (0,255,0)
+RED = (255,0,0)
 
 #Basic game loop
 FPS = 60
@@ -92,6 +102,23 @@ while run:
                     if dis < radius:
                         letter[3] = False
                         guessed.append(char)
-            
+                        #Changing hangman state
+                        if char not in word:
+                            hangman_state += 1
+
+    #Checking for Win / Loss   
+    won = True     
+    for letter in word:
+        if letter not in guessed:
+            won = False
+            break
+
+    if won:
+        display_message("YOU WON!")
+        break
+    
+    if hangman_state == 6:
+        display_message("YOU LOST")
+        break
 
 pygame.quit()           
