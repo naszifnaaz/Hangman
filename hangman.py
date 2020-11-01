@@ -1,5 +1,6 @@
 #Hangman game made using Python and pygame
 import pygame
+import math
 
 #Setting up display
 pygame.init()
@@ -23,13 +24,13 @@ for i in range(26):
 
 #Draw function
 def draw():
-    win.fill(white)
+    win.fill(WHITE)
 
     #draw buttons
     for letter in letters:
         x, y, char = letter
-        pygame.draw.circle(win, black, (x,y), radius, 3)
-        text = LETTER_FONT.render(char,1,black)
+        pygame.draw.circle(win, BLACK, (x,y), radius, 3)
+        text = LETTER_FONT.render(char,1,BLACK)
         win.blit(text, (x - text.get_width() / 2, y - text.get_height() / 2))
 
     win.blit(images[hangman_state], (150, 100))
@@ -51,8 +52,8 @@ print(images)
 hangman_state = 6
 
 #Colors
-white = (255,255,255)
-black = (0,0,0)
+WHITE = (255,255,255)
+BLACK = (0,0,0)
 
 #Basic game loop
 FPS = 60
@@ -68,6 +69,13 @@ while run:
             run = False
         
         if event.type == pygame.MOUSEBUTTONDOWN:
-            pos = pygame.mouse.get_pos()
-            print(pos)
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            for letter in letters:
+                x, y, char = letter
+                #Adding collision detection
+                dis = math.sqrt((x - mouse_x) ** 2 + (y - mouse_y) ** 2)
+                if dis < radius:
+                    print(char)
+            
+
 pygame.quit()           
